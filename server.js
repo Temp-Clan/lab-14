@@ -25,10 +25,9 @@ chat.on("connection", socket => {
         if (!queue.hasOwnProperty(room)) {
             queue[room] ={
                 'users':{},
-                'messages':{}
+                messages:{}
             }
         }
-        console.log(queue); 
     })
     socket.on("new_user",payload => {
         let userId = uuidv4();
@@ -36,20 +35,44 @@ chat.on("connection", socket => {
         console.log('queue' , queue);
         // queue.users[userId] = payload
         queue[payload.Room]['users'][userId] = payload ; 
-      console.log('this is the payload ' , queue[payload.Room]);
+        console.log('this is the payload ' , queue[payload.Room]);
     })
-    socket.on("new_message" ,(message,username)=> {
-      let messageId= uuidv4();
-        // queue[message.Room]['messages'][messageId] = message ; 
-        // console.log('this is the passed message', message.Room);
-        chat.emit('new_message',message, username);
-        console.log('this is the message ant the username ' , message , username);
+    
+    socket.on("new_message" ,(message,user)=> {
+        
+        if (!queue.hasOwnProperty(user.Room)) {
+            queue[user.Room] ={
+                'users':{},
+                'messages':{}
+            }
+        }
+        let messageId= uuidv4();
+        queue[user.Room]['messages'][messageId] = `${user.Username}:${message}` ; 
+        console.log('this is the passed message', message);
+        // chat.emit('get_all', user.Room);
+        let getAll=((Room)=>{
+            console.log('get all the chores for the message',queue[Room].messages);
 
+            Object.values(queue[Room].messages).forEach(message=>{
+                chat.emit('new_message',message,messageId)
+            })
+        })
+        getAll(user.Room);
+        console.log('this is the message ant the username ' , message , user.Username);
+        console.log("before",queue); 
+
+ 
+        
+    })
+    socket.on('delete',(id,Room)=>{
+        delete queue[Room]['messages'][id];
+        console.log('------------------------------');
+        // console.log("delete",queue[Room]['messages'],id); 
+        console.log('after deltete',queue); 
     })
 
-    // socket.to("room1").emit(message);
-    // socket.to(socketId).emit(/* ... */);
-    //get all 
+    
+
 
 
 

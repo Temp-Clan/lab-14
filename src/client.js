@@ -8,15 +8,15 @@ let room = "room1";
 let name = faker.name.findName();
 client.emit('join',name,room);
  
-
+let user = {
+  UserId: faker.datatype.uuid() ,
+  Username:name ,
+  Room : room ,
+  Address : faker.address.streetAddress() ,
+}
 
 setTimeout(() => {
-  let user = {
-      UserId: faker.datatype.uuid() ,
-      Username:name ,
-      Room : room ,
-      Address : faker.address.streetAddress() ,
-  }
+
   client.emit('new_user',user)
 //   let newMessege= {
 //     UserId:user.UserId,
@@ -29,6 +29,19 @@ console.log(process.argv);
 const value = process.argv.splice(2)[0];
 // let value = prompt('Enter a message: ');
 console.log(value);
-client.emit('new_message',value,user.Username);
-},1000)
+client.emit('new_message',value,user);
+},3000)
+
+
+client.on('new_message',(message,messageId)=>{
+  console.log(`said  ${message}`);
+  // console.log(message.split(':')[0]!==user.Username);
+  if(message.split(':')[0]!==user.Username)
+  {
+
+    client.emit('delete',messageId,user.Room);
+
+  }
+
+});
 
