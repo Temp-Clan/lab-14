@@ -32,10 +32,10 @@ chat.on("connection", socket => {
     socket.on("new_user",payload => {
         let userId = uuidv4();
         console.log('user id ',userId);
-        console.log('queue' , queue);
+        // console.log('queue' , queue);
         // queue.users[userId] = payload
         queue[payload.Room]['users'][userId] = payload ; 
-        console.log('this is the payload ' , queue[payload.Room]);
+        // console.log('this is the payload ' , queue[payload.Room]);
     })
     
     socket.on("new_message" ,(message,user)=> {
@@ -48,18 +48,18 @@ chat.on("connection", socket => {
         }
         let messageId= uuidv4();
         queue[user.Room]['messages'][messageId] = `${user.Username}:${message}` ; 
-        console.log('this is the passed message', message);
+        // console.log('this is the passed message', message);
         // chat.emit('get_all', user.Room);
         let getAll=((Room)=>{
-            console.log('get all the chores for the message',queue[Room].messages);
+            // console.log('get all the chores for the message',queue[Room].messages);
 
             Object.values(queue[Room].messages).forEach(message=>{
                 chat.emit('new_message',message,messageId)
             })
         })
         getAll(user.Room);
-        console.log('this is the message ant the username ' , message , user.Username);
-        console.log("before",queue); 
+        // console.log('this is the message ant the username ' , message , user.Username);
+        // console.log("before",queue); 
 
  
         

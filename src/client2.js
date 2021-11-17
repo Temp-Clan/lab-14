@@ -23,7 +23,7 @@ setTimeout(() => {
     console.log(process.argv);
     const value = process.argv.splice(2)[0];
     // let value = prompt('Enter a message: ');
-    console.log(value);
+    // console.log(value);
     client.emit('new_message',value,user);
   },3000)
 
