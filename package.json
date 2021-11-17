@@ -1,0 +1,28 @@
+{
+  "name": "lab-14",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Temp-Clan/lab-14.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Temp-Clan/lab-14/issues"
+  },
+  "homepage": "https://github.com/Temp-Clan/lab-14#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "faker": "^5.5.3",
+    "socket.io": "^4.3.2",
+    "socket.io-client": "^4.3.2",
+    "uuid": "^8.3.2"
+  }
+}
